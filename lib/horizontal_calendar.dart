@@ -67,7 +67,6 @@ class HorizontalCalendar extends StatefulWidget {
 class _HorizontalCalendarState extends State<HorizontalCalendar> {
   final List<DateTime> allDates = [];
   final List<DateTime> selectedDates = [];
-  final controller = ScrollController();
 
   @override
   void initState() {
@@ -84,7 +83,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
       height: widget.height,
       child: Center(
         child: ListView.builder(
-          controller: controller,
+          controller: widget.scrollController ?? ScrollController(),
           scrollDirection: Axis.horizontal,
           itemCount: allDates.length,
           itemBuilder: (context, index) {
