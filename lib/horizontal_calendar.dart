@@ -31,6 +31,7 @@ class HorizontalCalendar extends StatefulWidget {
   final ScrollController scrollController;
 
   HorizontalCalendar({
+    Key key,
     this.height = 100,
     @required this.firstDate,
     @required this.lastDate,
@@ -51,7 +52,7 @@ class HorizontalCalendar extends StatefulWidget {
     this.disabledDecoration = const BoxDecoration(color: Colors.grey),
     this.isDateDisabled,
     this.initialSelectedDates,
-  });
+  }) : super(key: key);
 
   @override
   _HorizontalCalendarState createState() => _HorizontalCalendarState();

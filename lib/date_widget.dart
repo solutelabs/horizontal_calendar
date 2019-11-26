@@ -19,7 +19,8 @@ class DateWidget extends StatelessWidget {
   final isSelected;
   final isDisabled;
 
-  DateWidget({
+  const DateWidget({
+    Key key,
     @required this.date,
     this.onTap,
     this.onLongTap,
@@ -36,7 +37,7 @@ class DateWidget extends StatelessWidget {
     this.dayFormat,
     this.selectedDecoration,
     this.disabledDecoration,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
