@@ -29,6 +29,8 @@ class HorizontalCalendar extends StatefulWidget {
   final DateBuilder isDateDisabled;
   final List<DateTime> initialSelectedDates;
   final ScrollController scrollController;
+  final double spacingBetweenDates;
+  final EdgeInsetsGeometry padding;
 
   HorizontalCalendar({
     Key key,
@@ -52,6 +54,8 @@ class HorizontalCalendar extends StatefulWidget {
     this.disabledDecoration = const BoxDecoration(color: Colors.grey),
     this.isDateDisabled,
     this.initialSelectedDates,
+    this.spacingBetweenDates = 8.0,
+    this.padding = const EdgeInsets.all(8.0),
   }) : super(key: key);
 
   @override
@@ -83,43 +87,46 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
           itemCount: allDates.length,
           itemBuilder: (context, index) {
             final date = allDates[index];
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DateWidget(
-                isSelected: selectedDates.contains(date),
-                isDisabled: widget.isDateDisabled != null
-                    ? widget.isDateDisabled(date)
-                    : false,
-                date: date,
-                monthTextStyle: widget.monthTextStyle,
-                selectedMonthTextStyle: widget.selectedMonthTextStyle,
-                monthFormat: widget.monthFormat,
-                dateTextStyle: widget.dateTextStyle,
-                selectedDateTextStyle: widget.selectedDateTextStyle,
-                dateFormat: widget.dateFormat,
-                dayTextStyle: widget.dayTextStyle,
-                selectedDayTextStyle: widget.selectedDayTextStyle,
-                dayFormat: widget.dayFormat,
-                selectedDecoration: widget.selectedDecoration,
-                disabledDecoration: widget.disabledDecoration,
-                onTap: () {
-                  if (!selectedDates.contains(date)) {
-                    selectedDates.add(date);
-                    if (widget.onDateSelected != null) {
-                      widget.onDateSelected(date);
+            return Row(
+              children: <Widget>[
+                DateWidget(
+                  padding: widget.padding,
+                  isSelected: selectedDates.contains(date),
+                  isDisabled: widget.isDateDisabled != null
+                      ? widget.isDateDisabled(date)
+                      : false,
+                  date: date,
+                  monthTextStyle: widget.monthTextStyle,
+                  selectedMonthTextStyle: widget.selectedMonthTextStyle,
+                  monthFormat: widget.monthFormat,
+                  dateTextStyle: widget.dateTextStyle,
+                  selectedDateTextStyle: widget.selectedDateTextStyle,
+                  dateFormat: widget.dateFormat,
+                  dayTextStyle: widget.dayTextStyle,
+                  selectedDayTextStyle: widget.selectedDayTextStyle,
+                  dayFormat: widget.dayFormat,
+                  selectedDecoration: widget.selectedDecoration,
+                  disabledDecoration: widget.disabledDecoration,
+                  onTap: () {
+                    if (!selectedDates.contains(date)) {
+                      selectedDates.add(date);
+                      if (widget.onDateSelected != null) {
+                        widget.onDateSelected(date);
+                      }
+                    } else {
+                      final isRemoved = selectedDates.remove(date);
+                      if (isRemoved && widget.onDateUnSelected != null) {
+                        widget.onDateUnSelected(date);
+                      }
                     }
-                  } else {
-                    final isRemoved = selectedDates.remove(date);
-                    if (isRemoved && widget.onDateUnSelected != null) {
-                      widget.onDateUnSelected(date);
-                    }
-                  }
-                  setState(() {});
-                },
-                onLongTap: () => widget.onDateLongTap != null
-                    ? widget.onDateLongTap(date)
-                    : null,
-              ),
+                    setState(() {});
+                  },
+                  onLongTap: () => widget.onDateLongTap != null
+                      ? widget.onDateLongTap(date)
+                      : null,
+                ),
+                SizedBox(width: widget.spacingBetweenDates),
+              ],
             );
           },
         ),

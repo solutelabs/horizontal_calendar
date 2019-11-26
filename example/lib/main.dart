@@ -14,6 +14,8 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: HorizontalCalendar(
+            height: 80,
+            padding: EdgeInsets.all(16),
             firstDate: DateTime.now(),
             lastDate: DateTime.now().add(Duration(days: 30)),
             dateFormat: 'dd',
@@ -27,14 +29,6 @@ class MyApp extends StatelessWidget {
               color: Colors.grey,
               borderRadius: BorderRadius.circular(8),
             ),
-            dateTextStyle: Theme.of(context).textTheme.title.copyWith(
-                  color: Colors.black,
-                  fontSize: 26,
-                ),
-            selectedDateTextStyle: Theme.of(context).textTheme.title.copyWith(
-                  color: Colors.white,
-                  fontSize: 26,
-                ),
             isDateDisabled: (date) => date.weekday == 7,
           ),
         ),

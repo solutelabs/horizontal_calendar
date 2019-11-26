@@ -16,8 +16,9 @@ class DateWidget extends StatelessWidget {
   final VoidCallback onLongTap;
   final Decoration selectedDecoration;
   final Decoration disabledDecoration;
-  final isSelected;
-  final isDisabled;
+  final bool isSelected;
+  final bool isDisabled;
+  final EdgeInsetsGeometry padding;
 
   const DateWidget({
     Key key,
@@ -37,6 +38,7 @@ class DateWidget extends StatelessWidget {
     this.dayFormat,
     this.selectedDecoration,
     this.disabledDecoration,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -62,7 +64,7 @@ class DateWidget extends StatelessWidget {
             ? selectedDecoration
             : isDisabled ? disabledDecoration : null,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: padding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
