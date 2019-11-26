@@ -56,7 +56,9 @@ class HorizontalCalendar extends StatefulWidget {
     this.initialSelectedDates,
     this.spacingBetweenDates = 8.0,
     this.padding = const EdgeInsets.all(8.0),
-  }) : super(key: key);
+  })  : assert(firstDate != null),
+        assert(lastDate != null),
+        super(key: key);
 
   @override
   _HorizontalCalendarState createState() => _HorizontalCalendarState();
