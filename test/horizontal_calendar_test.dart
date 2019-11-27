@@ -175,9 +175,9 @@ void main() {
             disabledDecoration: disabledDateDecoration,
             isDateDisabled: (date) =>
                 date.compareTo(DateTime(2019, 11, 19)) == 0,
-            onDateSelected: prints,
-            onDateUnSelected: prints,
-            onDateLongTap: prints,
+            onDateSelected: (date) => print("S:$date"),
+            onDateUnSelected: (date) => print("U:$date"),
+            onDateLongTap: (date) => print("L:$date"),
           ),
           textDirection: TextDirection.ltr,
         ),

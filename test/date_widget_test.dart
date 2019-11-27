@@ -206,4 +206,41 @@ void main() {
       expect(find.byWidgetPredicate(weekDayTextStyle), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'Lables should render as per provided order',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Directionality(
+          child: DateWidget(
+            date: DateTime(2019, 11, 17),
+            padding: EdgeInsets.all(8),
+            labelOrder: [
+              LabelType.date,
+              LabelType.month,
+            ],
+            dateTextStyle: null,
+          ),
+          textDirection: TextDirection.ltr,
+        ),
+      );
+
+      WidgetPredicate columnPredicate = (Widget widget) {
+        if (widget is Column) {
+          final children = widget.children;
+          if (children.length < 2) {
+            return false;
+          }
+          Text firstText = children[0];
+          Text secondText = children[1];
+          if (firstText.data == "17" && secondText.data == "Nov") {
+            return true;
+          }
+        }
+        return false;
+      };
+
+      expect(find.byWidgetPredicate(columnPredicate), findsOneWidget);
+    },
+  );
 }
