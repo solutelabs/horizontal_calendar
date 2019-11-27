@@ -9,9 +9,9 @@ class DateWidget extends StatelessWidget {
   final TextStyle dateTextStyle;
   final TextStyle selectedDateTextStyle;
   final String dateFormat;
-  final TextStyle dayTextStyle;
-  final TextStyle selectedDayTextStyle;
-  final String dayFormat;
+  final TextStyle weekDayTextStyle;
+  final TextStyle selectedWeekDayTextStyle;
+  final String weekDayFormat;
   final VoidCallback onTap;
   final VoidCallback onLongTap;
   final Decoration selectedDecoration;
@@ -33,9 +33,9 @@ class DateWidget extends StatelessWidget {
     this.dateTextStyle,
     this.selectedDateTextStyle,
     this.dateFormat,
-    this.dayTextStyle,
-    this.selectedDayTextStyle,
-    this.dayFormat,
+    this.weekDayTextStyle,
+    this.selectedWeekDayTextStyle,
+    this.weekDayFormat,
     this.selectedDecoration,
     this.disabledDecoration,
     this.padding,
@@ -53,8 +53,8 @@ class DateWidget extends StatelessWidget {
         ? selectedDateTextStyle ?? dateTextStyle ?? titleStyle
         : dateTextStyle ?? titleStyle;
     final dayStyle = isSelected
-        ? selectedDayTextStyle ?? dayTextStyle ?? subTitleStyle
-        : dayTextStyle ?? subTitleStyle;
+        ? selectedWeekDayTextStyle ?? weekDayTextStyle ?? subTitleStyle
+        : weekDayTextStyle ?? subTitleStyle;
 
     return GestureDetector(
       onTap: isDisabled ? null : onTap,
@@ -77,9 +77,9 @@ class DateWidget extends StatelessWidget {
                 DateFormat(dateFormat).format(date),
                 style: dateStyle,
               ),
-              if (dayFormat != null)
+              if (weekDayFormat != null)
                 Text(
-                  DateFormat(dayFormat).format(date),
+                  DateFormat(weekDayFormat).format(date),
                   style: dayStyle,
                 ),
             ],

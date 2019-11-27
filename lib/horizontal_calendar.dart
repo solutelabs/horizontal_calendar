@@ -18,9 +18,9 @@ class HorizontalCalendar extends StatefulWidget {
   final TextStyle dateTextStyle;
   final TextStyle selectedDateTextStyle;
   final String dateFormat;
-  final TextStyle dayTextStyle;
-  final TextStyle selectedDayTextStyle;
-  final String dayFormat;
+  final TextStyle weekDayTextStyle;
+  final TextStyle selectedWeekDayTextStyle;
+  final String weekDayFormat;
   final DateSelectionCallBack onDateSelected;
   final DateSelectionCallBack onDateLongTap;
   final DateSelectionCallBack onDateUnSelected;
@@ -47,9 +47,9 @@ class HorizontalCalendar extends StatefulWidget {
     this.dateTextStyle,
     this.selectedDateTextStyle,
     this.dateFormat = 'dd',
-    this.dayTextStyle,
-    this.selectedDayTextStyle,
-    this.dayFormat = 'EEE',
+    this.weekDayTextStyle,
+    this.selectedWeekDayTextStyle,
+    this.weekDayFormat = 'EEE',
     this.selectedDecoration = const BoxDecoration(color: Colors.cyan),
     this.disabledDecoration = const BoxDecoration(color: Colors.grey),
     this.isDateDisabled,
@@ -103,9 +103,9 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                   dateTextStyle: widget.dateTextStyle,
                   selectedDateTextStyle: widget.selectedDateTextStyle,
                   dateFormat: widget.dateFormat,
-                  dayTextStyle: widget.dayTextStyle,
-                  selectedDayTextStyle: widget.selectedDayTextStyle,
-                  dayFormat: widget.dayFormat,
+                  weekDayTextStyle: widget.weekDayTextStyle,
+                  selectedWeekDayTextStyle: widget.selectedWeekDayTextStyle,
+                  weekDayFormat: widget.weekDayFormat,
                   selectedDecoration: widget.selectedDecoration,
                   disabledDecoration: widget.disabledDecoration,
                   onTap: () {

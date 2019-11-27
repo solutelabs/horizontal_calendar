@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
             firstDate: DateTime.now(),
             lastDate: DateTime.now().add(Duration(days: 30)),
             dateFormat: 'dd',
-            dayFormat: 'EE',
+            weekDayFormat: 'EE',
             monthFormat: null,
             selectedDecoration: BoxDecoration(
               color: Colors.red,
