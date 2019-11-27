@@ -14,6 +14,7 @@ class DateWidget extends StatelessWidget {
   final String weekDayFormat;
   final VoidCallback onTap;
   final VoidCallback onLongTap;
+  final Decoration defaultDecoration;
   final Decoration selectedDecoration;
   final Decoration disabledDecoration;
   final bool isSelected;
@@ -36,6 +37,7 @@ class DateWidget extends StatelessWidget {
     this.weekDayTextStyle,
     this.selectedWeekDayTextStyle,
     this.weekDayFormat,
+    this.defaultDecoration,
     this.selectedDecoration,
     this.disabledDecoration,
     this.padding,
@@ -62,7 +64,7 @@ class DateWidget extends StatelessWidget {
       child: Container(
         decoration: isSelected
             ? selectedDecoration
-            : isDisabled ? disabledDecoration : null,
+            : isDisabled ? disabledDecoration : defaultDecoration,
         child: Padding(
           padding: padding,
           child: Column(
