@@ -74,7 +74,7 @@ class DateWidget extends StatelessWidget {
                   style: monthStyle,
                 ),
               Text(
-                DateFormat(dateFormat).format(date),
+                DateFormat(dateFormat ?? 'dd').format(date),
                 style: dateStyle,
               ),
               if (weekDayFormat != null)

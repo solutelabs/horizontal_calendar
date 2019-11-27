@@ -91,6 +91,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
             return Row(
               children: <Widget>[
                 DateWidget(
+                  key: Key(date.toIso8601String()),
                   padding: widget.padding,
                   isSelected: selectedDates.contains(date),
                   isDisabled: widget.isDateDisabled != null
