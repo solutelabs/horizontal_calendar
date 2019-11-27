@@ -12,3 +12,9 @@ List<DateTime> getDateList(
 DateTime toDateMonthYear(DateTime dateTime) {
   return DateTime(dateTime.year, dateTime.month, dateTime.day);
 }
+
+enum LabelType {
+  date,
+  month,
+  weekday,
+}

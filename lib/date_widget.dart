@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:horizontal_calendar/date_helper.dart';
 import 'package:intl/intl.dart';
 
 class DateWidget extends StatelessWidget {
+  final defaultDateFormat = 'dd';
+  final defaultMonthFormat = 'MMM';
+  final defaultWeekDayFormat = 'EEE';
+
   final DateTime date;
   final TextStyle monthTextStyle;
   final TextStyle selectedMonthTextStyle;
@@ -20,6 +25,7 @@ class DateWidget extends StatelessWidget {
   final bool isSelected;
   final bool isDisabled;
   final EdgeInsetsGeometry padding;
+  final List<LabelType> labelOrder;
 
   const DateWidget({
     Key key,
@@ -30,17 +36,18 @@ class DateWidget extends StatelessWidget {
     this.isDisabled = false,
     this.monthTextStyle,
     this.selectedMonthTextStyle,
-    this.monthFormat = 'MMM',
+    this.monthFormat,
     this.dateTextStyle,
     this.selectedDateTextStyle,
-    this.dateFormat = 'dd',
+    this.dateFormat,
     this.weekDayTextStyle,
     this.selectedWeekDayTextStyle,
-    this.weekDayFormat = 'EEE',
+    this.weekDayFormat,
     this.defaultDecoration,
     this.selectedDecoration = const BoxDecoration(color: Colors.cyan),
     this.disabledDecoration = const BoxDecoration(color: Colors.grey),
     this.padding,
+    this.labelOrder,
   }) : super(key: key);
 
   @override
@@ -70,20 +77,32 @@ class DateWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              if (monthFormat != null)
-                Text(
-                  DateFormat(monthFormat).format(date),
-                  style: monthStyle,
-                ),
-              Text(
-                DateFormat(dateFormat ?? 'dd').format(date),
-                style: dateStyle,
-              ),
-              if (weekDayFormat != null)
-                Text(
-                  DateFormat(weekDayFormat).format(date),
-                  style: dayStyle,
-                ),
+              ...labelOrder.map((type) {
+                Text text;
+                switch (type) {
+                  case LabelType.month:
+                    text = Text(
+                      DateFormat(monthFormat ?? defaultMonthFormat)
+                          .format(date),
+                      style: monthStyle,
+                    );
+                    break;
+                  case LabelType.date:
+                    text = Text(
+                      DateFormat(dateFormat ?? defaultDateFormat).format(date),
+                      style: dateStyle,
+                    );
+                    break;
+                  case LabelType.weekday:
+                    text = Text(
+                      DateFormat(weekDayFormat ?? defaultWeekDayFormat)
+                          .format(date),
+                      style: dayStyle,
+                    );
+                    break;
+                }
+                return text;
+              }).toList(growable: false)
             ],
           ),
         ),

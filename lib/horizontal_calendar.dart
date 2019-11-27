@@ -32,6 +32,7 @@ class HorizontalCalendar extends StatefulWidget {
   final ScrollController scrollController;
   final double spacingBetweenDates;
   final EdgeInsetsGeometry padding;
+  final List<LabelType> labelOrder;
 
   HorizontalCalendar({
     Key key,
@@ -58,8 +59,15 @@ class HorizontalCalendar extends StatefulWidget {
     this.initialSelectedDates,
     this.spacingBetweenDates = 8.0,
     this.padding = const EdgeInsets.all(8.0),
+    this.labelOrder = const [
+      LabelType.month,
+      LabelType.date,
+      LabelType.weekday,
+    ],
   })  : assert(firstDate != null),
         assert(lastDate != null),
+        assert(labelOrder != null && labelOrder.isNotEmpty,
+            'Label Order should not be empty'),
         super(key: key);
 
   @override
@@ -112,6 +120,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                   defaultDecoration: widget.defaultDecoration,
                   selectedDecoration: widget.selectedDecoration,
                   disabledDecoration: widget.disabledDecoration,
+                  labelOrder: widget.labelOrder,
                   onTap: () {
                     if (!selectedDates.contains(date)) {
                       selectedDates.add(date);

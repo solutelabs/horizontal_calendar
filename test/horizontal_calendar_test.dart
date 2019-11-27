@@ -38,6 +38,42 @@ void main() {
     },
   );
 
+  testWidgets(
+    'Assert should fail if Label order is NULL',
+        (WidgetTester tester) async {
+      expectLater(
+              () => tester.pumpWidget(
+            Directionality(
+              child: HorizontalCalendar(
+                firstDate: DateTime(2019, 11, 20),
+                lastDate: null,
+                labelOrder: null,
+              ),
+              textDirection: TextDirection.ltr,
+            ),
+          ),
+          throwsAssertionError);
+    },
+  );
+
+  testWidgets(
+    'Assert should fail if Label order is empty',
+        (WidgetTester tester) async {
+      expectLater(
+              () => tester.pumpWidget(
+            Directionality(
+              child: HorizontalCalendar(
+                firstDate: DateTime(2019, 11, 20),
+                lastDate: null,
+                labelOrder: [],
+              ),
+              textDirection: TextDirection.ltr,
+            ),
+          ),
+          throwsAssertionError);
+    },
+  );
+
   testWidgets('Should render N widgets as provided start & end date',
       (WidgetTester tester) async {
     await tester.pumpWidget(

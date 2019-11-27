@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:horizontal_calendar/date_helper.dart';
 import 'package:horizontal_calendar/date_widget.dart';
 
 void main() {
+  final defaultLabelOrder = [
+    LabelType.month,
+    LabelType.date,
+    LabelType.weekday,
+  ];
+
   testWidgets(
       'Render widgets with date / month/ weekday by default formats if formats are provided not explicitly',
       (WidgetTester tester) async {
@@ -11,6 +18,7 @@ void main() {
         child: DateWidget(
           date: DateTime(2019, 11, 17),
           padding: EdgeInsets.all(8),
+          labelOrder: defaultLabelOrder,
         ),
         textDirection: TextDirection.ltr,
       ),
@@ -35,6 +43,7 @@ void main() {
             dateFormat: 'dd/MMM',
             monthFormat: 'MM',
             weekDayFormat: 'EEEE',
+            labelOrder: defaultLabelOrder,
           ),
           textDirection: TextDirection.ltr,
         ),
@@ -46,56 +55,6 @@ void main() {
       expect(date17, findsOneWidget);
       final week17 = find.text('Sunday');
       expect(week17, findsOneWidget);
-    },
-  );
-
-  testWidgets(
-    'Month / weekday should not render if pattern is NULL',
-    (WidgetTester tester) async {
-      await tester.pumpWidget(
-        Directionality(
-          child: DateWidget(
-            date: DateTime(2019, 11, 17),
-            padding: EdgeInsets.all(8),
-            dateFormat: 'dd/MMM',
-            monthFormat: null,
-            weekDayFormat: null,
-          ),
-          textDirection: TextDirection.ltr,
-        ),
-      );
-
-      final month11 = find.text('11');
-      expect(month11, findsNothing);
-      final date17 = find.text('17/Nov');
-      expect(date17, findsOneWidget);
-      final week17 = find.text('Sunday');
-      expect(week17, findsNothing);
-    },
-  );
-
-  testWidgets(
-    'date should always render even if pattern is NULL',
-    (WidgetTester tester) async {
-      await tester.pumpWidget(
-        Directionality(
-          child: DateWidget(
-            date: DateTime(2019, 11, 17),
-            padding: EdgeInsets.all(8),
-            dateFormat: null,
-            monthFormat: null,
-            weekDayFormat: null,
-          ),
-          textDirection: TextDirection.ltr,
-        ),
-      );
-
-      final month11 = find.text('11');
-      expect(month11, findsNothing);
-      final date17 = find.text('17');
-      expect(date17, findsOneWidget);
-      final week17 = find.text('Sunday');
-      expect(week17, findsNothing);
     },
   );
 
@@ -115,6 +74,7 @@ void main() {
             monthFormat: null,
             weekDayFormat: null,
             defaultDecoration: dateDecoration,
+            labelOrder: defaultLabelOrder,
           ),
           textDirection: TextDirection.ltr,
         ),
@@ -143,6 +103,7 @@ void main() {
             weekDayFormat: null,
             selectedDecoration: dateDecoration,
             isSelected: true,
+            labelOrder: defaultLabelOrder,
           ),
           textDirection: TextDirection.ltr,
         ),
@@ -174,6 +135,7 @@ void main() {
             disabledDecoration: dateDecoration,
             isDisabled: true,
             dateTextStyle: style,
+            labelOrder: defaultLabelOrder,
           ),
           textDirection: TextDirection.ltr,
         ),
@@ -219,6 +181,7 @@ void main() {
             weekDayFormat: weekDayFormat,
             weekDayTextStyle: weekDayStyle,
             defaultDecoration: defaultDecoration,
+            labelOrder: defaultLabelOrder,
           ),
           textDirection: TextDirection.ltr,
         ),
