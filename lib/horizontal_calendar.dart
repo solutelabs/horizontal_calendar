@@ -66,6 +66,10 @@ class HorizontalCalendar extends StatefulWidget {
     ],
   })  : assert(firstDate != null),
         assert(lastDate != null),
+        assert(
+          toDateMonthYear(lastDate) == toDateMonthYear(firstDate) ||
+              toDateMonthYear(lastDate).isAfter(toDateMonthYear(firstDate)),
+        ),
         assert(labelOrder != null && labelOrder.isNotEmpty,
             'Label Order should not be empty'),
         super(key: key);
