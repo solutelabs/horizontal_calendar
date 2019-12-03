@@ -1,7 +1,8 @@
 name: horizontal_calendar
-description: Horizontal week view calendar.
-version: 0.0.1
+description: Easy to use, highly customizable horizontal calendar.
+version: 1.0.0
 author:
+  - SoluteLabs <opensource@solutelabs.com>
 homepage:
 
 environment:
