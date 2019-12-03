@@ -24,7 +24,7 @@ Easy to use, highly customizable horizontal calendar.
 - [x] Disabled date cell [Decoration](https://api.flutter.dev/flutter/painting/Decoration-class.html)
 
 <p align="center">
-  <img src="https://github.com/milind-mevada-stl/horizontal_calendar/raw/feature/example/images/demo.gif">
+  <img src="https://raw.githubusercontent.com/solutelabs/horizontal_calendar/master/images/demo.gif">
 </p>
 
 ## Properties
@@ -73,6 +73,4 @@ e.g.
 
 ## Issues and Feedback
 
-* For any issue and feedback please create issue on Github repo.
-
-
+* For any issue and feedback please [create issue](https://github.com/solutelabs/horizontal_calendar/issues/new) on Github repo.
