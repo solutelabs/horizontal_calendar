@@ -22,4 +22,4 @@ Easy to use, highly customizable horizontal calendar.
 * Selected date cell [Decoration](https://api.flutter.dev/flutter/painting/Decoration-class.html)
 * Disabled date cell [Decoration](https://api.flutter.dev/flutter/painting/Decoration-class.html)
 
-![Demo App](https://github.com/milind-mevada-stl/horizontal_calendar/raw/example/images/demo.gif)
+![Demo App](https://github.com/milind-mevada-stl/horizontal_calendar/raw/feature/example/images/demo.gif)
