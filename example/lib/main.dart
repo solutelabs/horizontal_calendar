@@ -63,6 +63,8 @@ class _DemoWidgetState extends State<DemoWidget> {
   BoxShape disabledDecorationShape = BoxShape.rectangle;
   bool isCircularRadiusDisabled = true;
 
+  int maxSelectedDateCount = 1;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -102,9 +104,9 @@ class _DemoWidgetState extends State<DemoWidget> {
                 ? BorderRadius.circular(8)
                 : null,
           ),
-          initialSelectedDates: [DateTime(2019, 11, 28)],
           isDateDisabled: (date) => date.weekday == 7,
           labelOrder: order.map(toLabelType).toList(),
+          maxSelectedDateCount: maxSelectedDateCount,
         ),
         SizedBox(height: 32),
         Expanded(
@@ -152,6 +154,31 @@ class _DemoWidgetState extends State<DemoWidget> {
                     ),
                   ),
                 ],
+              ),
+              Header(headerText: 'Date Selection'),
+              PropertyLabel(
+                label: 'Max Selected Date count',
+                value: Row(
+                  children: <Widget>[
+                    Text(
+                      maxSelectedDateCount.toString(),
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    Expanded(
+                      child: Slider(
+                        min: 0,
+                        max: 15,
+                        value: maxSelectedDateCount.toDouble(),
+                        onChanged: (value) {
+                          setState(() {
+                            forceRender = true;
+                            maxSelectedDateCount = value.toInt();
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Header(headerText: 'Formats'),
               PropertyLabel(
