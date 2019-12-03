@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:horizontal_calendar/date_helper.dart';
+import 'package:horizontal_calendar_widget/date_helper.dart';
 
 void main() {
   test(

@@ -1,8 +1,8 @@
 library horizontal_calendar;
 
 import 'package:flutter/material.dart';
-import 'package:horizontal_calendar/date_helper.dart';
-import 'package:horizontal_calendar/date_widget.dart';
+import 'package:horizontal_calendar_widget/date_helper.dart';
+import 'package:horizontal_calendar_widget/date_widget.dart';
 
 typedef DateBuilder = bool Function(DateTime dateTime);
 

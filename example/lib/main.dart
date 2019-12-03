@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:horizontal_calendar/date_helper.dart';
-import 'package:horizontal_calendar/horizontal_calendar.dart';
+import 'package:horizontal_calendar_widget/date_helper.dart';
+import 'package:horizontal_calendar_widget/horizontal_calendar.dart';
 import 'package:intl/intl.dart';
 
 import 'components/components.dart';

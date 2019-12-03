@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:horizontal_calendar/date_helper.dart';
+import 'package:horizontal_calendar_widget/date_helper.dart';
 import 'package:intl/intl.dart';
 
 class DateWidget extends StatelessWidget {

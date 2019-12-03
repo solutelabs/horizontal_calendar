@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:horizontal_calendar/horizontal_calendar.dart';
+import 'package:horizontal_calendar_widget/horizontal_calendar.dart';
 
 void main() {
   testWidgets(
