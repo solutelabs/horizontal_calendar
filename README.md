@@ -2,13 +2,15 @@
 
 Easy to use, highly customizable horizontal calendar.
 
-###Features
+### Features
 
 * Custom date range (First & Last Date)
-* Single or multiple(x) date selection 
-* `onDateSelected`, `onDateUnSelected`, `onDateLongTap` events.
+* Single or up to x days selection
+* `onDateSelected`, `onDateUnSelected`, `onDateLongTap`, `onMaxDateSelectionReached` events.
+* Support custom ScrollController
 * Initial selected dates
-* Granular control over disabled date.  
+* Granular control to disable dates.  
+* Internationalization support
 * Month / Date / Week Day label order customization
 * Month / Week day label hide / show
 * Custom [TextStyles](https://api.flutter.dev/flutter/painting/TextStyle-class.html) for Month, Date, WeekDay
@@ -19,3 +21,5 @@ Easy to use, highly customizable horizontal calendar.
 * Default date cell [Decoration](https://api.flutter.dev/flutter/painting/Decoration-class.html)
 * Selected date cell [Decoration](https://api.flutter.dev/flutter/painting/Decoration-class.html)
 * Disabled date cell [Decoration](https://api.flutter.dev/flutter/painting/Decoration-class.html)
+
+![Demo App](https://github.com/milind-mevada-stl/horizontal_calendar/raw/example/images/demo.gif)
