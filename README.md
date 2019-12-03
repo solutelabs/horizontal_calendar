@@ -2,7 +2,7 @@
 
 Easy to use, highly customizable horizontal calendar.
 
-### Features
+## Features
 
 - [x] Custom date range (First & Last Date)
 - [x] Single or up to x days selection
@@ -26,7 +26,7 @@ Easy to use, highly customizable horizontal calendar.
   <img src="https://github.com/milind-mevada-stl/horizontal_calendar/raw/feature/example/images/demo.gif">
 </p>
 
-### Properties
+## Properties
 
 |  Property Name | Property Type | Description  | Default value  |
 | ------------------------- | ---------------------------------- | ------------ | ---------------------- |
@@ -56,3 +56,18 @@ Easy to use, highly customizable horizontal calendar.
 |  disabledDecoration | Decoration |Decoration to be applied to disabled date cell | - |
 |  spacingBetweenDates | double | Spacing between two cells of date | 8.0 |
 |  padding | EdgeInsetsGeometry | Padding to date cell | `EdgeInsets.all(8.0)` |
+
+## State Management in horizontal_calendar
+
+`initialSelectedDates` will only be taken when the widget built for the first time.  `horizontal_calendar`  will manage the Subsequent dates selection and un selection.
+
+To get the initial control over the host app, one can pass the UniqueKey.
+
+e.g.
+```dart
+    HorizontalCalendar(
+      key: UniqueKey(),
+    );
+``` 
+
+
