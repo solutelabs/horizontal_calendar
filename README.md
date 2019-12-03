@@ -29,7 +29,7 @@ Easy to use, highly customizable horizontal calendar.
 ### Properties
 
 |  Property Name | Property Type | Description  | Default value  |
-| ------------ | ------------ | ------------ | ------------ |
+| ------------------------- | ---------------------------------- | ------------ | ---------------------- |
 |  height | double |Height of widget  |  100 |
 |  firstDate |DateTime |First Date of calendar  |  - |
 | lastDate  | Last Date of calendar  | -  |
