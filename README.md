@@ -70,4 +70,8 @@ e.g.
     );
 ``` 
 
+## Issues and Feedback
+
+* For any issue and feedback please create issue on Github repo.
+
 
