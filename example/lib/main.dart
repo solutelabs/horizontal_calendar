@@ -1,10 +1,11 @@
 import 'dart:ui';
 
-import 'package:example/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_calendar/date_helper.dart';
 import 'package:horizontal_calendar/horizontal_calendar.dart';
 import 'package:intl/intl.dart';
+
+import 'components/components.dart';
 
 void main() => runApp(MyApp());
 
