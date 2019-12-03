@@ -1,8 +1,7 @@
 name: horizontal_calendar
 description: Easy to use, highly customizable horizontal calendar.
 version: 1.0.0
-author:
-  - SoluteLabs <opensource@solutelabs.com>
+author: SoluteLabs <opensource@solutelabs.com>
 homepage: https://github.com/solutelabs/horizontal_calendar
 
 environment:
