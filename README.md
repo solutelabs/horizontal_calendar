@@ -1,14 +1,21 @@
 # horizontal_calendar
 
-Horizontal week view calendar.
+Easy to use, highly customizable horizontal calendar.
 
-## Getting Started
+###Features
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+* Custom date range (First & Last Date)
+* Single or multiple(x) date selection 
+* `onDateSelected`, `onDateUnSelected`, `onDateLongTap` events.
+* Initial selected dates
+* Granular control over disabled date.  
+* Month / Date / Week Day label order customization
+* Month / Week day label hide / show
+* Custom [TextStyles](https://api.flutter.dev/flutter/painting/TextStyle-class.html) for Month, Date, WeekDay
+* Custom [TextStyles](https://api.flutter.dev/flutter/painting/TextStyle-class.html) for selected Month, selected Date, selected WeekDay
+* Customizable month format (e.g. `MM`,`MMM`)
+* Customizable date format (e.g. `dd`,`d`)
+* Customizable week day format (e.g. `EE`,`EEE`)
+* Default date cell [Decoration](https://api.flutter.dev/flutter/painting/Decoration-class.html)
+* Selected date cell [Decoration](https://api.flutter.dev/flutter/painting/Decoration-class.html)
+* Disabled date cell [Decoration](https://api.flutter.dev/flutter/painting/Decoration-class.html)
