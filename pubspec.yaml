@@ -1,15 +1,17 @@
 name: horizontal_calendar
-description: Horizontal week view calendar.
-version: 0.0.1
+description: Easy to use, highly customizable horizontal calendar.
+version: 1.0.0
 author:
+  - SoluteLabs <opensource@solutelabs.com>
 homepage:
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.16.0
 
 dev_dependencies:
   flutter_test:
