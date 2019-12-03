@@ -24,6 +24,7 @@ class HorizontalCalendar extends StatefulWidget {
   final DateSelectionCallBack onDateSelected;
   final DateSelectionCallBack onDateLongTap;
   final DateSelectionCallBack onDateUnSelected;
+  final VoidCallback onMaxDateSelectionReached;
   final Decoration defaultDecoration;
   final Decoration selectedDecoration;
   final Decoration disabledDecoration;
@@ -33,6 +34,7 @@ class HorizontalCalendar extends StatefulWidget {
   final double spacingBetweenDates;
   final EdgeInsetsGeometry padding;
   final List<LabelType> labelOrder;
+  final int maxSelectedDateCount;
 
   HorizontalCalendar({
     Key key,
@@ -43,6 +45,8 @@ class HorizontalCalendar extends StatefulWidget {
     this.onDateSelected,
     this.onDateLongTap,
     this.onDateUnSelected,
+    this.onMaxDateSelectionReached,
+    this.maxSelectedDateCount = 1,
     this.monthTextStyle,
     this.selectedMonthTextStyle,
     this.monthFormat,
@@ -66,6 +70,10 @@ class HorizontalCalendar extends StatefulWidget {
     ],
   })  : assert(firstDate != null),
         assert(lastDate != null),
+        assert(
+          toDateMonthYear(lastDate) == toDateMonthYear(firstDate) ||
+              toDateMonthYear(lastDate).isAfter(toDateMonthYear(firstDate)),
+        ),
         assert(labelOrder != null && labelOrder.isNotEmpty,
             'Label Order should not be empty'),
         super(key: key);
@@ -123,6 +131,17 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                   labelOrder: widget.labelOrder,
                   onTap: () {
                     if (!selectedDates.contains(date)) {
+                      if (widget.maxSelectedDateCount == 1 &&
+                          selectedDates.length == 1) {
+                        selectedDates.clear();
+                      } else if (widget.maxSelectedDateCount ==
+                          selectedDates.length) {
+                        if (widget.onMaxDateSelectionReached != null) {
+                          widget.onMaxDateSelectionReached();
+                        }
+                        return;
+                      }
+
                       selectedDates.add(date);
                       if (widget.onDateSelected != null) {
                         widget.onDateSelected(date);
