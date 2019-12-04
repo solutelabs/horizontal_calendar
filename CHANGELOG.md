@@ -1,3 +1,6 @@
+## [1.0.1] 
+- Changed intl from main to transitive dependency to avoid version conflicts.
+
 ## [1.0.0] Initial Release
 
 - [x] Custom date range (First & Last Date)
