@@ -33,7 +33,8 @@ Easy to use, highly customizable horizontal calendar.
 | ------------------------- | ---------------------------------- | ------------ | ---------------------- |
 |  height | double |Height of widget  |  100 |
 |  firstDate | DateTime |First Date of calendar  |  - |
-| lastDate  | DateTime |Last Date of calendar  | -  |
+|  lastDate  | DateTime |Last Date of calendar  | -  |
+|  minSelectedDateCount | int | Count of min selectable dates | 0  |
 |  maxSelectedDateCount | int | Count of max selectable dates | 1  |
 |  onDateSelected | Function(DateTime dateTime) |Callback when date is selected | -  |
 |  onDateLongTap | Function(DateTime dateTime) |Callback when date cell is long pressed | -  |
