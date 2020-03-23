@@ -35,6 +35,7 @@ class HorizontalCalendar extends StatefulWidget {
   final EdgeInsetsGeometry padding;
   final List<LabelType> labelOrder;
   final int maxSelectedDateCount;
+  final bool isLabelUppercase;
 
   HorizontalCalendar({
     Key key,
@@ -68,6 +69,7 @@ class HorizontalCalendar extends StatefulWidget {
       LabelType.date,
       LabelType.weekday,
     ],
+    this.isLabelUppercase = false,
   })  : assert(firstDate != null),
         assert(lastDate != null),
         assert(
@@ -129,6 +131,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                   selectedDecoration: widget.selectedDecoration,
                   disabledDecoration: widget.disabledDecoration,
                   labelOrder: widget.labelOrder,
+                  isLabelUppercase: widget.isLabelUppercase ?? false,
                   onTap: () {
                     if (!selectedDates.contains(date)) {
                       if (widget.maxSelectedDateCount == 1 &&

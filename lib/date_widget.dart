@@ -26,6 +26,7 @@ class DateWidget extends StatelessWidget {
   final bool isDisabled;
   final EdgeInsetsGeometry padding;
   final List<LabelType> labelOrder;
+  final bool isLabelUppercase;
 
   const DateWidget({
     Key key,
@@ -48,6 +49,7 @@ class DateWidget extends StatelessWidget {
     this.disabledDecoration = const BoxDecoration(color: Colors.grey),
     this.padding,
     this.labelOrder,
+    this.isLabelUppercase = false,
   }) : super(key: key);
 
   @override
@@ -82,8 +84,9 @@ class DateWidget extends StatelessWidget {
                 switch (type) {
                   case LabelType.month:
                     text = Text(
-                      DateFormat(monthFormat ?? defaultMonthFormat)
-                          .format(date),
+                      isLabelUppercase
+                          ? _monthLabel().toUpperCase()
+                          : _monthLabel(),
                       style: monthStyle,
                     );
                     break;
@@ -95,8 +98,9 @@ class DateWidget extends StatelessWidget {
                     break;
                   case LabelType.weekday:
                     text = Text(
-                      DateFormat(weekDayFormat ?? defaultWeekDayFormat)
-                          .format(date),
+                      isLabelUppercase
+                          ? _weekDayLabel().toUpperCase()
+                          : _weekDayLabel(),
                       style: dayStyle,
                     );
                     break;
@@ -108,5 +112,13 @@ class DateWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _monthLabel() {
+    return DateFormat(monthFormat ?? defaultMonthFormat).format(date);
+  }
+
+  String _weekDayLabel() {
+    return DateFormat(weekDayFormat ?? defaultWeekDayFormat).format(date);
   }
 }
