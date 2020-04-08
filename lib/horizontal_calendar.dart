@@ -34,6 +34,7 @@ class HorizontalCalendar extends StatefulWidget {
   final double spacingBetweenDates;
   final EdgeInsetsGeometry padding;
   final List<LabelType> labelOrder;
+  final int minSelectedDateCount;
   final int maxSelectedDateCount;
   final bool isLabelUppercase;
 
@@ -47,6 +48,7 @@ class HorizontalCalendar extends StatefulWidget {
     this.onDateLongTap,
     this.onDateUnSelected,
     this.onMaxDateSelectionReached,
+    this.minSelectedDateCount = 0,
     this.maxSelectedDateCount = 1,
     this.monthTextStyle,
     this.selectedMonthTextStyle,
@@ -61,7 +63,7 @@ class HorizontalCalendar extends StatefulWidget {
     this.selectedDecoration,
     this.disabledDecoration,
     this.isDateDisabled,
-    this.initialSelectedDates,
+    this.initialSelectedDates = const [],
     this.spacingBetweenDates = 8.0,
     this.padding = const EdgeInsets.all(8.0),
     this.labelOrder = const [
@@ -78,6 +80,11 @@ class HorizontalCalendar extends StatefulWidget {
         ),
         assert(labelOrder != null && labelOrder.isNotEmpty,
             'Label Order should not be empty'),
+        assert(minSelectedDateCount <= maxSelectedDateCount),
+        assert(minSelectedDateCount <= initialSelectedDates.length,
+            "You must provide at least $minSelectedDateCount initialSelectedDates"),
+        assert(maxSelectedDateCount >= initialSelectedDates.length,
+            "You can't provide more than $maxSelectedDateCount initialSelectedDates"),
         super(key: key);
 
   @override
@@ -92,9 +99,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
   void initState() {
     super.initState();
     allDates.addAll(getDateList(widget.firstDate, widget.lastDate));
-    if (widget.initialSelectedDates != null) {
-      selectedDates.addAll(widget.initialSelectedDates.map((toDateMonthYear)));
-    }
+    selectedDates.addAll(widget.initialSelectedDates.map((toDateMonthYear)));
   }
 
   @override
@@ -149,7 +154,8 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                       if (widget.onDateSelected != null) {
                         widget.onDateSelected(date);
                       }
-                    } else {
+                    } else if (selectedDates.length >
+                        widget.minSelectedDateCount) {
                       final isRemoved = selectedDates.remove(date);
                       if (isRemoved && widget.onDateUnSelected != null) {
                         widget.onDateUnSelected(date);
