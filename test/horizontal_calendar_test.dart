@@ -74,6 +74,70 @@ void main() {
     },
   );
 
+  testWidgets(
+    'Assert should fail if minSelectedDateCount is -gt maxSelectedDateCount',
+    (WidgetTester tester) async {
+      expectLater(
+          () => tester.pumpWidget(
+                Directionality(
+                  child: HorizontalCalendar(
+                    firstDate: DateTime(2020, 03, 04),
+                    lastDate: DateTime(2020, 03, 08),
+                    minSelectedDateCount: 2,
+                    maxSelectedDateCount: 1,
+                  ),
+                  textDirection: TextDirection.ltr,
+                ),
+              ),
+          throwsAssertionError);
+    },
+  );
+
+  testWidgets(
+    'Assert should fail if initialSelectedDate lenght is -lt minSelectedDateCount',
+    (WidgetTester tester) async {
+      expectLater(
+          () => tester.pumpWidget(
+                Directionality(
+                  child: HorizontalCalendar(
+                    firstDate: DateTime(2020, 03, 04),
+                    lastDate: DateTime(2020, 03, 08),
+                    minSelectedDateCount: 2,
+                    maxSelectedDateCount: 3,
+                    initialSelectedDates: [
+                      DateTime(2020, 03, 04),
+                    ],
+                  ),
+                  textDirection: TextDirection.ltr,
+                ),
+              ),
+          throwsAssertionError);
+    },
+  );
+
+  testWidgets(
+    'Assert should fail if initialSelectedDate lenght is -gt maxSelectedDateCount',
+    (WidgetTester tester) async {
+      expectLater(
+          () => tester.pumpWidget(
+                Directionality(
+                  child: HorizontalCalendar(
+                    firstDate: DateTime(2020, 03, 04),
+                    lastDate: DateTime(2020, 03, 08),
+                    maxSelectedDateCount: 2,
+                    initialSelectedDates: [
+                      DateTime(2020, 03, 04),
+                      DateTime(2020, 03, 05),
+                      DateTime(2020, 03, 06),
+                    ],
+                  ),
+                  textDirection: TextDirection.ltr,
+                ),
+              ),
+          throwsAssertionError);
+    },
+  );
+
   testWidgets('Should render N widgets as provided start & end date',
       (WidgetTester tester) async {
     await tester.pumpWidget(
@@ -320,6 +384,59 @@ void main() {
           .tap(find.byKey(Key(DateTime(2019, 11, 19).toIso8601String())));
       await tester.pumpAndSettle();
       expect(find.byWidgetPredicate(selectedDatePredicate), findsNWidgets(2));
+    },
+  );
+
+  testWidgets(
+    '''Case: minSelectedDateCount = 1 and maxSelectedDateCount = 1. 
+    one and only one date should be always selected.''',
+    (WidgetTester tester) async {
+      final dateDecoration = BoxDecoration(
+        color: Colors.blue,
+      );
+      final selectedDateDecoration = BoxDecoration(
+        color: Colors.green,
+      );
+
+      final disabledDateDecoration = BoxDecoration(
+        color: Colors.grey,
+      );
+
+      await tester.pumpWidget(
+        Directionality(
+          child: HorizontalCalendar(
+            firstDate: DateTime(2020, 03, 04),
+            lastDate: DateTime(2020, 03, 08),
+            defaultDecoration: dateDecoration,
+            selectedDecoration: selectedDateDecoration,
+            disabledDecoration: disabledDateDecoration,
+            onDateSelected: (date) => print("S:$date"),
+            onDateUnSelected: (date) => print("U:$date"),
+            onDateLongTap: (date) => print("L:$date"),
+            minSelectedDateCount: 1,
+            maxSelectedDateCount: 1,
+            initialSelectedDates: [
+              DateTime(2020, 03, 05),
+            ],
+          ),
+          textDirection: TextDirection.ltr,
+        ),
+      );
+
+      WidgetPredicate selectedDatePredicate = (Widget widget) =>
+          widget is Container && widget.decoration == selectedDateDecoration;
+
+      //Tap 04 and expect one date still being selected
+      await tester
+          .tap(find.byKey(Key(DateTime(2020, 03, 04).toIso8601String())));
+      await tester.pumpAndSettle();
+      expect(find.byWidgetPredicate(selectedDatePredicate), findsNWidgets(1));
+
+      //Tap 05 and expect still only one date being selected
+      await tester
+          .tap(find.byKey(Key(DateTime(2020, 03, 05).toIso8601String())));
+      await tester.pumpAndSettle();
+      expect(find.byWidgetPredicate(selectedDatePredicate), findsNWidgets(1));
     },
   );
 

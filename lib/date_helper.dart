@@ -1,10 +1,8 @@
-List<DateTime> getDateList(
-  DateTime firstDate,
-  DateTime lastDate,
-) {
-  final list = [toDateMonthYear(firstDate)];
-  while (list.last.compareTo(toDateMonthYear(lastDate)) == -1) {
-    list.add(toDateMonthYear(list.last.add(Duration(days: 1))));
+List<DateTime> getDateList(DateTime firstDate, DateTime lastDate) {
+  List<DateTime> list = List();
+  int count = daysCount(toDateMonthYear(firstDate), toDateMonthYear(lastDate));
+  for (int i = 0; i < count; i++) {
+    list.add(toDateMonthYear(firstDate).add(Duration(days: i)));
   }
   return list;
 }
@@ -12,6 +10,9 @@ List<DateTime> getDateList(
 DateTime toDateMonthYear(DateTime dateTime) {
   return DateTime(dateTime.year, dateTime.month, dateTime.day);
 }
+
+int daysCount(DateTime first, DateTime last) =>
+    last.difference(first).inDays + 1;
 
 enum LabelType {
   date,
