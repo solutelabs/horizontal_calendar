@@ -153,15 +153,15 @@ class DecorationBuilder extends StatelessWidget {
   final Color color;
   final Function(Color) onColorChange;
 
-  const DecorationBuilder(
-      {Key key,
-      @required this.decorationShape,
-      @required this.onSelectShape,
-      @required this.isCircularRadius,
-      @required this.onCircularRadiusChange,
-      @required this.color,
-      @required this.onColorChange})
-      : super(key: key);
+  const DecorationBuilder({
+    Key key,
+    @required this.decorationShape,
+    @required this.onSelectShape,
+    @required this.isCircularRadius,
+    @required this.onCircularRadiusChange,
+    @required this.color,
+    @required this.onColorChange,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -192,6 +192,67 @@ class DecorationBuilder extends StatelessWidget {
             value: color,
             onChange: onColorChange,
           ),
+        ),
+      ],
+    );
+  }
+}
+
+typedef RangeSelectionCallback = void Function(RangeValues newRange);
+
+class CustomRangeSlider extends StatefulWidget {
+  final RangeValues range;
+  final double min;
+  final double max;
+  final RangeSelectionCallback onRangeSet;
+
+  CustomRangeSlider({
+    @required this.range,
+    @required this.onRangeSet,
+    this.min,
+    this.max,
+  }) : assert(range != null);
+
+  @override
+  _CustomRangeSliderState createState() => _CustomRangeSliderState();
+}
+
+class _CustomRangeSliderState extends State<CustomRangeSlider> {
+  RangeValues range;
+
+  @override
+  void initState() {
+    super.initState();
+    range = widget.range;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Text(
+          "${range.start.toInt()}",
+          style: Theme.of(context).textTheme.title,
+        ),
+        Expanded(
+          child: RangeSlider(
+            values: range,
+            min: widget.min,
+            max: widget.max,
+            divisions: widget.max.toInt(),
+            onChanged: (newRange) => {
+              setState(() {
+                range = newRange;
+                if (widget.onRangeSet != null) {
+                  widget.onRangeSet(newRange);
+                }
+              })
+            },
+          ),
+        ),
+        Text(
+          "${range.end.toInt()}",
+          style: Theme.of(context).textTheme.title,
         ),
       ],
     );

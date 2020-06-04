@@ -45,8 +45,8 @@ class DemoWidget extends StatefulWidget {
 }
 
 class _DemoWidgetState extends State<DemoWidget> {
-  DateTime firstDate = toDateMonthYear(DateTime.now());
-  DateTime lastDate = toDateMonthYear(DateTime.now().add(Duration(days: 30)));
+  DateTime firstDate;
+  DateTime lastDate;
   String dateFormat = 'dd';
   String monthFormat = 'MMM';
   String weekDayFormat = 'EEE';
@@ -65,7 +65,40 @@ class _DemoWidgetState extends State<DemoWidget> {
   BoxShape disabledDecorationShape = BoxShape.rectangle;
   bool isCircularRadiusDisabled = true;
 
+  int minSelectedDateCount = 1;
   int maxSelectedDateCount = 1;
+  RangeValues selectedDateCount;
+
+  List<DateTime> initialSelectedDates;
+
+  @override
+  void initState() {
+    super.initState();
+    const int days = 30;
+    firstDate = toDateMonthYear(DateTime.now());
+    lastDate = toDateMonthYear(firstDate.add(Duration(days: days - 1)));
+    selectedDateCount = RangeValues(
+      minSelectedDateCount.toDouble(),
+      maxSelectedDateCount.toDouble(),
+    );
+    initialSelectedDates = feedInitialSelectedDates(minSelectedDateCount, days);
+  }
+
+  List<DateTime> feedInitialSelectedDates(int target, int calendarDays) {
+    List<DateTime> selectedDates = List();
+
+    for (int i = 0; i < calendarDays; i++) {
+      if (selectedDates.length == target) {
+        break;
+      }
+      DateTime date = firstDate.add(Duration(days: i));
+      if (date.weekday != DateTime.sunday) {
+        selectedDates.add(date);
+      }
+    }
+
+    return selectedDates;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +139,11 @@ class _DemoWidgetState extends State<DemoWidget> {
                 ? BorderRadius.circular(8)
                 : null,
           ),
-          isDateDisabled: (date) => date.weekday == 7,
+          isDateDisabled: (date) => date.weekday == DateTime.sunday,
           labelOrder: order.map(toLabelType).toList(),
+          minSelectedDateCount: minSelectedDateCount,
           maxSelectedDateCount: maxSelectedDateCount,
+          initialSelectedDates: initialSelectedDates,
         ),
         SizedBox(height: 32),
         Expanded(
@@ -123,16 +158,27 @@ class _DemoWidgetState extends State<DemoWidget> {
                       value: Text(DateFormat('dd/MM/yyyy').format(firstDate)),
                       onTap: () async {
                         final date = await datePicker(context, firstDate);
-                        if (date != null) {
-                          if (lastDate == date || lastDate.isAfter(date)) {
-                            setState(() {
-                              forceRender = true;
-                              firstDate = date;
-                            });
-                          } else {
-                            showError('Invalid Date');
-                          }
+                        if (date == null) {
+                          return;
                         }
+
+                        if (lastDate.isBefore(date)) {
+                          showMessage('First Date cannot be after Last Date');
+                          return;
+                        }
+
+                        int min = minSelectedDateCount;
+                        if (!isRangeValid(date, lastDate, min)) {
+                          showMessage(
+                            "Date range is too low to set this configuration",
+                          );
+                          return;
+                        }
+
+                        setState(() {
+                          forceRender = true;
+                          dateRangeChange(date, lastDate);
+                        });
                       },
                     ),
                   ),
@@ -142,16 +188,29 @@ class _DemoWidgetState extends State<DemoWidget> {
                       value: Text(DateFormat('dd/MM/yyyy').format(lastDate)),
                       onTap: () async {
                         final date = await datePicker(context, lastDate);
-                        if (date != null) {
-                          if (date == firstDate || date.isAfter(firstDate)) {
-                            setState(() {
-                              forceRender = true;
-                              lastDate = date;
-                            });
-                          } else {
-                            showError('Invalid Date');
-                          }
+                        if (date == null) {
+                          return;
                         }
+
+                        if (firstDate.isAfter(date)) {
+                          showMessage(
+                            'Last Date cannot be before First Date',
+                          );
+                          return;
+                        }
+
+                        int min = minSelectedDateCount;
+                        if (!isRangeValid(firstDate, date, min)) {
+                          showMessage(
+                            "Date range is too low to set this configuration",
+                          );
+                          return;
+                        }
+
+                        setState(() {
+                          forceRender = true;
+                          dateRangeChange(firstDate, date);
+                        });
                       },
                     ),
                   ),
@@ -159,28 +218,38 @@ class _DemoWidgetState extends State<DemoWidget> {
               ),
               Header(headerText: 'Date Selection'),
               PropertyLabel(
-                label: 'Max Selected Date count',
-                value: Row(
-                  children: <Widget>[
-                    Text(
-                      maxSelectedDateCount.toString(),
-                      style: Theme.of(context).textTheme.title,
-                    ),
-                    Expanded(
-                      child: Slider(
-                        min: 0,
-                        max: 15,
-                        value: maxSelectedDateCount.toDouble(),
-                        onChanged: (value) {
-                          setState(() {
-                            forceRender = true;
-                            maxSelectedDateCount = value.toInt();
-                          });
-                        },
-                      ),
-                    ),
-                  ],
+                label:
+                    'Min-Max Selectable Dates ($minSelectedDateCount - $maxSelectedDateCount)',
+                value: CustomRangeSlider(
+                  range: selectedDateCount,
+                  min: 0,
+                  max: 15,
+                  onRangeSet: (newRange) {
+                    selectedDateCount = newRange;
+                  },
                 ),
+              ),
+              RaisedButton(
+                child: Text('Update'),
+                onPressed: () {
+                  setState(() {
+                    int min = selectedDateCount.start.toInt();
+                    if (!isRangeValid(firstDate, lastDate, min)) {
+                      showMessage(
+                        "Date range is too low to set this configuration",
+                      );
+                      return;
+                    }
+
+                    minSelectedDateCount = selectedDateCount.start.toInt();
+                    maxSelectedDateCount = selectedDateCount.end.toInt();
+                    initialSelectedDates = feedInitialSelectedDates(
+                      minSelectedDateCount,
+                      daysCount(firstDate, lastDate),
+                    );
+                    showMessage("Updated");
+                  });
+                },
               ),
               Header(headerText: 'Formats'),
               PropertyLabel(
@@ -374,9 +443,34 @@ class _DemoWidgetState extends State<DemoWidget> {
     );
   }
 
-  void showError(String message) {
+  void showMessage(String message) {
     Scaffold.of(context).showSnackBar(
       SnackBar(content: Text(message)),
+    );
+  }
+
+  bool isRangeValid(DateTime first, DateTime last, int minSelection) {
+    int availableDays = availableDaysCount(
+      getDateList(first, last),
+      [DateTime.sunday],
+    );
+
+    return availableDays >= minSelection;
+  }
+
+  int availableDaysCount(List<DateTime> dates, List<int> disabledDays) =>
+      dates.where((date) => !disabledDays.contains(date.weekday)).length;
+
+  void dateRangeChange(DateTime first, DateTime last) {
+    firstDate = first;
+    lastDate = last;
+    initialSelectedDates = feedInitialSelectedDates(
+      minSelectedDateCount,
+      daysCount(first, last),
+    );
+    selectedDateCount = RangeValues(
+      minSelectedDateCount.toDouble(),
+      maxSelectedDateCount.toDouble(),
     );
   }
 }
@@ -388,8 +482,8 @@ Future<DateTime> datePicker(
   final selectedDate = await showDatePicker(
     context: context,
     initialDate: initialDate,
-    firstDate: DateTime.now().add(
-      Duration(days: -365),
+    firstDate: DateTime.now().subtract(
+      Duration(days: 365),
     ),
     lastDate: DateTime.now().add(
       Duration(days: 365),
