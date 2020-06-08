@@ -54,8 +54,8 @@ class DateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.title;
-    final subTitleStyle = Theme.of(context).textTheme.subtitle;
+    final titleStyle = Theme.of(context).textTheme.headline6;
+    final subTitleStyle = Theme.of(context).textTheme.subtitle2;
 
     final monthStyle = isSelected
         ? selectedMonthTextStyle ?? monthTextStyle ?? subTitleStyle

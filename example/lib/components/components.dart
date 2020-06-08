@@ -126,7 +126,7 @@ class Header extends StatelessWidget {
             children: <Widget>[
               Text(
                 headerText,
-                style: Theme.of(context).textTheme.title.copyWith(
+                style: Theme.of(context).textTheme.headline6.copyWith(
                       color: Theme.of(context).primaryColor,
                     ),
               ),
@@ -232,7 +232,7 @@ class _CustomRangeSliderState extends State<CustomRangeSlider> {
       children: <Widget>[
         Text(
           "${range.start.toInt()}",
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.headline6,
         ),
         Expanded(
           child: RangeSlider(
@@ -252,7 +252,7 @@ class _CustomRangeSliderState extends State<CustomRangeSlider> {
         ),
         Text(
           "${range.end.toInt()}",
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.headline6,
         ),
       ],
     );
