@@ -16,6 +16,9 @@ class DateWidget extends StatelessWidget {
   final String dateFormat;
   final TextStyle weekDayTextStyle;
   final TextStyle selectedWeekDayTextStyle;
+  final TextStyle disabledMonthTextStyle;
+  final TextStyle disabledDateTextStyle;
+  final TextStyle disabledWeekdayTextStyle;
   final String weekDayFormat;
   final VoidCallback onTap;
   final VoidCallback onLongTap;
@@ -42,6 +45,9 @@ class DateWidget extends StatelessWidget {
     this.selectedDateTextStyle,
     this.dateFormat,
     this.weekDayTextStyle,
+    this.disabledDateTextStyle,
+    this.disabledMonthTextStyle,
+    this.disabledWeekdayTextStyle,
     this.selectedWeekDayTextStyle,
     this.weekDayFormat,
     this.defaultDecoration,
@@ -59,21 +65,19 @@ class DateWidget extends StatelessWidget {
 
     final monthStyle = isSelected
         ? selectedMonthTextStyle ?? monthTextStyle ?? subTitleStyle
-        : monthTextStyle ?? subTitleStyle;
+        : isDisabled ? disabledMonthTextStyle ?? subTitleStyle : monthTextStyle ?? subTitleStyle;
     final dateStyle = isSelected
         ? selectedDateTextStyle ?? dateTextStyle ?? titleStyle
-        : dateTextStyle ?? titleStyle;
+        : isDisabled ? disabledDateTextStyle ?? titleStyle : dateTextStyle ?? titleStyle;
     final dayStyle = isSelected
         ? selectedWeekDayTextStyle ?? weekDayTextStyle ?? subTitleStyle
-        : weekDayTextStyle ?? subTitleStyle;
+        : isDisabled ? disabledWeekdayTextStyle ?? subTitleStyle : weekDayTextStyle ?? subTitleStyle;
 
     return GestureDetector(
       onTap: isDisabled ? null : onTap,
       onLongPress: isDisabled ? null : onLongTap,
       child: Container(
-        decoration: isSelected
-            ? selectedDecoration
-            : isDisabled ? disabledDecoration : defaultDecoration,
+        decoration: isSelected ? selectedDecoration : isDisabled ? disabledDecoration : defaultDecoration,
         child: Padding(
           padding: padding,
           child: Column(
@@ -84,9 +88,7 @@ class DateWidget extends StatelessWidget {
                 switch (type) {
                   case LabelType.month:
                     text = Text(
-                      isLabelUppercase
-                          ? _monthLabel().toUpperCase()
-                          : _monthLabel(),
+                      isLabelUppercase ? _monthLabel().toUpperCase() : _monthLabel(),
                       style: monthStyle,
                     );
                     break;
@@ -98,9 +100,7 @@ class DateWidget extends StatelessWidget {
                     break;
                   case LabelType.weekday:
                     text = Text(
-                      isLabelUppercase
-                          ? _weekDayLabel().toUpperCase()
-                          : _weekDayLabel(),
+                      isLabelUppercase ? _weekDayLabel().toUpperCase() : _weekDayLabel(),
                       style: dayStyle,
                     );
                     break;
