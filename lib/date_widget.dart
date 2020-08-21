@@ -54,6 +54,8 @@ class DateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context, nullOk: true)?.languageCode;
+
     final titleStyle = Theme.of(context).textTheme.headline6;
     final subTitleStyle = Theme.of(context).textTheme.subtitle2;
 
@@ -85,22 +87,23 @@ class DateWidget extends StatelessWidget {
                   case LabelType.month:
                     text = Text(
                       isLabelUppercase
-                          ? _monthLabel().toUpperCase()
-                          : _monthLabel(),
+                          ? _monthLabel(locale).toUpperCase()
+                          : _monthLabel(locale),
                       style: monthStyle,
                     );
                     break;
                   case LabelType.date:
                     text = Text(
-                      DateFormat(dateFormat ?? defaultDateFormat).format(date),
+                      DateFormat(dateFormat ?? defaultDateFormat, locale)
+                          .format(date),
                       style: dateStyle,
                     );
                     break;
                   case LabelType.weekday:
                     text = Text(
                       isLabelUppercase
-                          ? _weekDayLabel().toUpperCase()
-                          : _weekDayLabel(),
+                          ? _weekDayLabel(locale).toUpperCase()
+                          : _weekDayLabel(locale),
                       style: dayStyle,
                     );
                     break;
@@ -114,11 +117,12 @@ class DateWidget extends StatelessWidget {
     );
   }
 
-  String _monthLabel() {
-    return DateFormat(monthFormat ?? defaultMonthFormat).format(date);
+  String _monthLabel(String locale) {
+    return DateFormat(monthFormat ?? defaultMonthFormat, locale).format(date);
   }
 
-  String _weekDayLabel() {
-    return DateFormat(weekDayFormat ?? defaultWeekDayFormat).format(date);
+  String _weekDayLabel(String locale) {
+    return DateFormat(weekDayFormat ?? defaultWeekDayFormat, locale)
+        .format(date);
   }
 }
