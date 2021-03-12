@@ -9,6 +9,9 @@ import 'components/components.dart';
 
 void main() => runApp(MyApp());
 
+int daysCount(DateTime first, DateTime last) =>
+    last.difference(first).inDays + 1;
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -71,6 +74,8 @@ class _DemoWidgetState extends State<DemoWidget> {
 
   List<DateTime> initialSelectedDates;
 
+  int initialScroll = 0;
+
   @override
   void initState() {
     super.initState();
@@ -85,7 +90,7 @@ class _DemoWidgetState extends State<DemoWidget> {
   }
 
   List<DateTime> feedInitialSelectedDates(int target, int calendarDays) {
-    List<DateTime> selectedDates = List();
+    List<DateTime> selectedDates = List<DateTime>.empty(growable: true);
 
     for (int i = 0; i < calendarDays; i++) {
       if (selectedDates.length == target) {
@@ -102,49 +107,51 @@ class _DemoWidgetState extends State<DemoWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var horizontalCalendar = HorizontalCalendar(
+      key: forceRender ? UniqueKey() : Key('Calendar'),
+      height: 120,
+      padding: EdgeInsets.all(22),
+      firstDate: firstDate,
+      lastDate: lastDate,
+      initialScroll: initialScroll,
+      dateFormat: dateFormat,
+      weekDayFormat: weekDayFormat,
+      monthFormat: monthFormat,
+      defaultDecoration: BoxDecoration(
+        color: defaultDecorationColor,
+        shape: defaultDecorationShape,
+        borderRadius: defaultDecorationShape == BoxShape.rectangle &&
+                isCircularRadiusDefault
+            ? BorderRadius.circular(8)
+            : null,
+      ),
+      selectedDecoration: BoxDecoration(
+        color: selectedDecorationColor,
+        shape: selectedDecorationShape,
+        borderRadius: selectedDecorationShape == BoxShape.rectangle &&
+                isCircularRadiusSelected
+            ? BorderRadius.circular(8)
+            : null,
+      ),
+      disabledDecoration: BoxDecoration(
+        color: disabledDecorationColor,
+        shape: disabledDecorationShape,
+        borderRadius: disabledDecorationShape == BoxShape.rectangle &&
+                isCircularRadiusDisabled
+            ? BorderRadius.circular(8)
+            : null,
+      ),
+      isDateDisabled: (date) => date.weekday == DateTime.sunday,
+      labelOrder: order.map(toLabelType).toList(),
+      minSelectedDateCount: minSelectedDateCount,
+      maxSelectedDateCount: maxSelectedDateCount,
+      initialSelectedDates: initialSelectedDates,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         SizedBox(height: 16),
-        HorizontalCalendar(
-          key: forceRender ? UniqueKey() : Key('Calendar'),
-          height: 120,
-          padding: EdgeInsets.all(22),
-          firstDate: firstDate,
-          lastDate: lastDate,
-          dateFormat: dateFormat,
-          weekDayFormat: weekDayFormat,
-          monthFormat: monthFormat,
-          defaultDecoration: BoxDecoration(
-            color: defaultDecorationColor,
-            shape: defaultDecorationShape,
-            borderRadius: defaultDecorationShape == BoxShape.rectangle &&
-                    isCircularRadiusDefault
-                ? BorderRadius.circular(8)
-                : null,
-          ),
-          selectedDecoration: BoxDecoration(
-            color: selectedDecorationColor,
-            shape: selectedDecorationShape,
-            borderRadius: selectedDecorationShape == BoxShape.rectangle &&
-                    isCircularRadiusSelected
-                ? BorderRadius.circular(8)
-                : null,
-          ),
-          disabledDecoration: BoxDecoration(
-            color: disabledDecorationColor,
-            shape: disabledDecorationShape,
-            borderRadius: disabledDecorationShape == BoxShape.rectangle &&
-                    isCircularRadiusDisabled
-                ? BorderRadius.circular(8)
-                : null,
-          ),
-          isDateDisabled: (date) => date.weekday == DateTime.sunday,
-          labelOrder: order.map(toLabelType).toList(),
-          minSelectedDateCount: minSelectedDateCount,
-          maxSelectedDateCount: maxSelectedDateCount,
-          initialSelectedDates: initialSelectedDates,
-        ),
+        horizontalCalendar,
         SizedBox(height: 32),
         Expanded(
           child: ListView(
@@ -214,6 +221,19 @@ class _DemoWidgetState extends State<DemoWidget> {
                       },
                     ),
                   ),
+                  Expanded(
+                      child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                    ),
+                    onChanged: (format) {
+                      setState(() {
+                        initialScroll = 500;
+                        forceRender = false;
+                      });
+                    },
+                  )),
                 ],
               ),
               Header(headerText: 'Date Selection'),
@@ -229,7 +249,7 @@ class _DemoWidgetState extends State<DemoWidget> {
                   },
                 ),
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text('Update'),
                 onPressed: () {
                   setState(() {
@@ -341,7 +361,7 @@ class _DemoWidgetState extends State<DemoWidget> {
                           },
                         ),
                       ),
-                      RaisedButton(
+                      ElevatedButton(
                         child: Text('Add Labels'),
                         onPressed: () {
                           setState(() {
@@ -444,7 +464,7 @@ class _DemoWidgetState extends State<DemoWidget> {
   }
 
   void showMessage(String message) {
-    Scaffold.of(context).showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );
   }
