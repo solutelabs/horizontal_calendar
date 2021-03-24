@@ -33,6 +33,7 @@ class HorizontalCalendar extends StatefulWidget {
   final ScrollController scrollController;
   final double spacingBetweenDates;
   final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry listViewPadding;
   final List<LabelType> labelOrder;
   final int minSelectedDateCount;
   final int maxSelectedDateCount;
@@ -66,6 +67,7 @@ class HorizontalCalendar extends StatefulWidget {
     this.initialSelectedDates = const [],
     this.spacingBetweenDates = 8.0,
     this.padding = const EdgeInsets.all(8.0),
+    this.listViewPadding = EdgeInsets.zero,
     this.labelOrder = const [
       LabelType.month,
       LabelType.date,
@@ -111,6 +113,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
           controller: widget.scrollController ?? ScrollController(),
           scrollDirection: Axis.horizontal,
           itemCount: allDates.length,
+          padding: widget.listViewPadding,
           itemBuilder: (context, index) {
             final date = allDates[index];
             return Row(
