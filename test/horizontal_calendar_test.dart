@@ -5,22 +5,6 @@ import 'package:horizontal_calendar_widget/horizontal_calendar.dart';
 
 void main() {
 
-  testWidgets(
-    'Assert should fail if lastDate is NULL',
-    (WidgetTester tester) async {
-      expectLater(
-          () => tester.pumpWidget(
-                Directionality(
-                  child: HorizontalCalendar(
-                    firstDate: DateTime(2019, 11, 20),
-                    lastDate: null,
-                  ),
-                  textDirection: TextDirection.ltr,
-                ),
-              ),
-          throwsAssertionError);
-    },
-  );
 
   testWidgets(
     'Assert should fail if Label order is NULL',
