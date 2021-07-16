@@ -1,5 +1,5 @@
 List<DateTime> getDateList(DateTime firstDate, DateTime lastDate) {
-  List<DateTime> list = List();
+  List<DateTime> list = [];
   int count = daysCount(toDateMonthYear(firstDate), toDateMonthYear(lastDate));
   for (int i = 0; i < count; i++) {
     list.add(toDateMonthYear(firstDate).add(Duration(days: i)));
