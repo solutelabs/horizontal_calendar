@@ -231,7 +231,7 @@ void main() {
           if (children.length < 2) {
             return false;
           }
-          Text firstText = children[0];
+          Text firstText = children![0];
           Text secondText = children[1];
           if (firstText.data == "17" && secondText.data == "Nov") {
             return true;
