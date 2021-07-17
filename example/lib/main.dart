@@ -444,9 +444,7 @@ class _DemoWidgetState extends State<DemoWidget> {
   }
 
   void showMessage(String message) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
   bool isRangeValid(DateTime first, DateTime last, int minSelection) {
