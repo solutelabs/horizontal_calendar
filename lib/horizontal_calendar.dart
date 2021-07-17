@@ -134,7 +134,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
                   selectedDecoration: widget.selectedDecoration,
                   disabledDecoration: widget.disabledDecoration,
                   labelOrder: widget.labelOrder,
-                  isLabelUppercase: widget.isLabelUppercase ?? false,
+                  isLabelUppercase: widget.isLabelUppercase,
                   onTap: () {
                     if (!selectedDates.contains(date)) {
                       if (widget.maxSelectedDateCount == 1 &&
