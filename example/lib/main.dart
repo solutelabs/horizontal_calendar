@@ -158,9 +158,6 @@ class _DemoWidgetState extends State<DemoWidget> {
                       value: Text(DateFormat('dd/MM/yyyy').format(firstDate)),
                       onTap: () async {
                         final date = await datePicker(context, firstDate);
-                        if (date == null) {
-                          return;
-                        }
 
                         if (lastDate.isBefore(date)) {
                           showMessage('First Date cannot be after Last Date');
@@ -188,9 +185,6 @@ class _DemoWidgetState extends State<DemoWidget> {
                       value: Text(DateFormat('dd/MM/yyyy').format(lastDate)),
                       onTap: () async {
                         final date = await datePicker(context, lastDate);
-                        if (date == null) {
-                          return;
-                        }
 
                         if (firstDate.isAfter(date)) {
                           showMessage(
@@ -229,27 +223,26 @@ class _DemoWidgetState extends State<DemoWidget> {
                   },
                 ),
               ),
-              RaisedButton(
-                child: Text('Update'),
-                onPressed: () {
-                  setState(() {
-                    int min = selectedDateCount.start.toInt();
-                    if (!isRangeValid(firstDate, lastDate, min)) {
-                      showMessage(
-                        "Date range is too low to set this configuration",
+              ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      int min = selectedDateCount.start.toInt();
+                      if (!isRangeValid(firstDate, lastDate, min)) {
+                        showMessage(
+                          "Date range is too low to set this configuration",
+                        );
+                        return;
+                      }
+                      minSelectedDateCount = selectedDateCount.start.toInt();
+                      maxSelectedDateCount = selectedDateCount.end.toInt();
+                      initialSelectedDates = feedInitialSelectedDates(
+                        minSelectedDateCount,
+                        daysCount(firstDate, lastDate),
                       );
-                      return;
-                    }
-
-                    minSelectedDateCount = selectedDateCount.start.toInt();
-                    maxSelectedDateCount = selectedDateCount.end.toInt();
-                    initialSelectedDates = feedInitialSelectedDates(
-                      minSelectedDateCount,
-                      daysCount(firstDate, lastDate),
-                    );
-                    showMessage("Updated");
-                  });
-                },
+                      showMessage("Updated");
+                    });
+                  },
+                  child: Text('Update'),
               ),
               Header(headerText: 'Formats'),
               PropertyLabel(
@@ -341,20 +334,20 @@ class _DemoWidgetState extends State<DemoWidget> {
                           },
                         ),
                       ),
-                      RaisedButton(
-                        child: Text('Add Labels'),
-                        onPressed: () {
-                          setState(() {
-                            forceRender = false;
-                            if (!order.contains(labelMonth)) {
-                              order.add(labelMonth);
-                            }
-                            if (!order.contains(labelWeekDay)) {
-                              order.add(labelWeekDay);
-                            }
-                          });
-                        },
-                      )
+                      ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              forceRender = false;
+                              if (!order.contains(labelMonth)) {
+                                order.add(labelMonth);
+                              }
+                              if (!order.contains(labelWeekDay)) {
+                                order.add(labelWeekDay);
+                              }
+                            });
+                          },
+                          child: Text('Add Labels'),
+                      ),
                     ],
                   ),
                 ),
