@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class PropertyLabel extends StatelessWidget {
   final String label;
-  final Widget value;
-  final VoidCallback onTap;
+  final Widget? value;
+  final VoidCallback? onTap;
 
   const PropertyLabel({
-    Key key,
-    this.label,
+    Key? key,
+    required this.label,
     this.value,
     this.onTap,
   }) : super(key: key);
@@ -29,11 +29,11 @@ class DropDownProperty<T> extends StatelessWidget {
   final Function(T selectedValue) onChange;
 
   const DropDownProperty({
-    Key key,
-    @required this.hint,
-    @required this.value,
-    @required this.options,
-    @required this.onChange,
+    Key? key,
+    required this.hint,
+    required this.value,
+    required this.options,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -65,9 +65,9 @@ class ColorDropDown extends StatelessWidget {
   final Function(Color selectedValue) onChange;
 
   const ColorDropDown({
-    Key key,
-    @required this.hint,
-    @required this.value,
+    Key? key,
+    required this.hint,
+    required this.value,
     this.options = const [
       Colors.transparent,
       Colors.blue,
@@ -76,7 +76,7 @@ class ColorDropDown extends StatelessWidget {
       Colors.green,
       Colors.grey,
     ],
-    @required this.onChange,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -111,7 +111,7 @@ class ColorDropDown extends StatelessWidget {
 class Header extends StatelessWidget {
   final String headerText;
 
-  const Header({Key key, this.headerText}) : super(key: key);
+  const Header({Key? key, required this.headerText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +126,7 @@ class Header extends StatelessWidget {
             children: <Widget>[
               Text(
                 headerText,
-                style: Theme.of(context).textTheme.headline6.copyWith(
+                style: Theme.of(context).textTheme.headline6!.copyWith(
                       color: Theme.of(context).primaryColor,
                     ),
               ),
@@ -149,18 +149,18 @@ class DecorationBuilder extends StatelessWidget {
   final BoxShape decorationShape;
   final Function(BoxShape) onSelectShape;
   final bool isCircularRadius;
-  final Function(bool) onCircularRadiusChange;
+  final Function(bool?)? onCircularRadiusChange;
   final Color color;
   final Function(Color) onColorChange;
 
   const DecorationBuilder({
-    Key key,
-    @required this.decorationShape,
-    @required this.onSelectShape,
-    @required this.isCircularRadius,
-    @required this.onCircularRadiusChange,
-    @required this.color,
-    @required this.onColorChange,
+    Key? key,
+    required this.decorationShape,
+    required this.onSelectShape,
+    required this.isCircularRadius,
+    required this.onCircularRadiusChange,
+    required this.color,
+    required this.onColorChange,
   }) : super(key: key);
 
   @override
@@ -207,18 +207,18 @@ class CustomRangeSlider extends StatefulWidget {
   final RangeSelectionCallback onRangeSet;
 
   CustomRangeSlider({
-    @required this.range,
-    @required this.onRangeSet,
-    this.min,
-    this.max,
-  }) : assert(range != null);
+    required this.range,
+    required this.onRangeSet,
+    required this.min,
+    required this.max,
+  });
 
   @override
   _CustomRangeSliderState createState() => _CustomRangeSliderState();
 }
 
 class _CustomRangeSliderState extends State<CustomRangeSlider> {
-  RangeValues range;
+  late RangeValues range;
 
   @override
   void initState() {
@@ -243,9 +243,7 @@ class _CustomRangeSliderState extends State<CustomRangeSlider> {
             onChanged: (newRange) => {
               setState(() {
                 range = newRange;
-                if (widget.onRangeSet != null) {
-                  widget.onRangeSet(newRange);
-                }
+                widget.onRangeSet(newRange);
               })
             },
           ),

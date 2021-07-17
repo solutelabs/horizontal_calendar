@@ -37,7 +37,7 @@ const labelWeekDay = 'Week Day';
 
 class DemoWidget extends StatefulWidget {
   const DemoWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -45,8 +45,8 @@ class DemoWidget extends StatefulWidget {
 }
 
 class _DemoWidgetState extends State<DemoWidget> {
-  DateTime firstDate;
-  DateTime lastDate;
+  late DateTime firstDate;
+  late DateTime lastDate;
   String dateFormat = 'dd';
   String monthFormat = 'MMM';
   String weekDayFormat = 'EEE';
@@ -67,9 +67,9 @@ class _DemoWidgetState extends State<DemoWidget> {
 
   int minSelectedDateCount = 1;
   int maxSelectedDateCount = 1;
-  RangeValues selectedDateCount;
+  late RangeValues selectedDateCount;
 
-  List<DateTime> initialSelectedDates;
+  late List<DateTime> initialSelectedDates;
 
   @override
   void initState() {
@@ -85,7 +85,7 @@ class _DemoWidgetState extends State<DemoWidget> {
   }
 
   List<DateTime> feedInitialSelectedDates(int target, int calendarDays) {
-    List<DateTime> selectedDates = List();
+    List<DateTime> selectedDates = [];
 
     for (int i = 0; i < calendarDays; i++) {
       if (selectedDates.length == target) {
@@ -158,9 +158,6 @@ class _DemoWidgetState extends State<DemoWidget> {
                       value: Text(DateFormat('dd/MM/yyyy').format(firstDate)),
                       onTap: () async {
                         final date = await datePicker(context, firstDate);
-                        if (date == null) {
-                          return;
-                        }
 
                         if (lastDate.isBefore(date)) {
                           showMessage('First Date cannot be after Last Date');
@@ -188,9 +185,6 @@ class _DemoWidgetState extends State<DemoWidget> {
                       value: Text(DateFormat('dd/MM/yyyy').format(lastDate)),
                       onTap: () async {
                         final date = await datePicker(context, lastDate);
-                        if (date == null) {
-                          return;
-                        }
 
                         if (firstDate.isAfter(date)) {
                           showMessage(
@@ -229,27 +223,26 @@ class _DemoWidgetState extends State<DemoWidget> {
                   },
                 ),
               ),
-              RaisedButton(
-                child: Text('Update'),
-                onPressed: () {
-                  setState(() {
-                    int min = selectedDateCount.start.toInt();
-                    if (!isRangeValid(firstDate, lastDate, min)) {
-                      showMessage(
-                        "Date range is too low to set this configuration",
+              ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      int min = selectedDateCount.start.toInt();
+                      if (!isRangeValid(firstDate, lastDate, min)) {
+                        showMessage(
+                          "Date range is too low to set this configuration",
+                        );
+                        return;
+                      }
+                      minSelectedDateCount = selectedDateCount.start.toInt();
+                      maxSelectedDateCount = selectedDateCount.end.toInt();
+                      initialSelectedDates = feedInitialSelectedDates(
+                        minSelectedDateCount,
+                        daysCount(firstDate, lastDate),
                       );
-                      return;
-                    }
-
-                    minSelectedDateCount = selectedDateCount.start.toInt();
-                    maxSelectedDateCount = selectedDateCount.end.toInt();
-                    initialSelectedDates = feedInitialSelectedDates(
-                      minSelectedDateCount,
-                      daysCount(firstDate, lastDate),
-                    );
-                    showMessage("Updated");
-                  });
-                },
+                      showMessage("Updated");
+                    });
+                  },
+                  child: Text('Update'),
               ),
               Header(headerText: 'Formats'),
               PropertyLabel(
@@ -261,7 +254,7 @@ class _DemoWidgetState extends State<DemoWidget> {
                   onChange: (format) {
                     setState(() {
                       forceRender = false;
-                      dateFormat = format;
+                      dateFormat = format as String;
                     });
                   },
                 ),
@@ -278,7 +271,7 @@ class _DemoWidgetState extends State<DemoWidget> {
                   onChange: (format) {
                     setState(() {
                       forceRender = false;
-                      monthFormat = format;
+                      monthFormat = format as String;
                     });
                   },
                 ),
@@ -292,7 +285,7 @@ class _DemoWidgetState extends State<DemoWidget> {
                   onChange: (format) {
                     setState(() {
                       forceRender = false;
-                      weekDayFormat = format;
+                      weekDayFormat = format as String;
                     });
                   },
                 ),
@@ -341,20 +334,20 @@ class _DemoWidgetState extends State<DemoWidget> {
                           },
                         ),
                       ),
-                      RaisedButton(
-                        child: Text('Add Labels'),
-                        onPressed: () {
-                          setState(() {
-                            forceRender = false;
-                            if (!order.contains(labelMonth)) {
-                              order.add(labelMonth);
-                            }
-                            if (!order.contains(labelWeekDay)) {
-                              order.add(labelWeekDay);
-                            }
-                          });
-                        },
-                      )
+                      ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              forceRender = false;
+                              if (!order.contains(labelMonth)) {
+                                order.add(labelMonth);
+                              }
+                              if (!order.contains(labelWeekDay)) {
+                                order.add(labelWeekDay);
+                              }
+                            });
+                          },
+                          child: Text('Add Labels'),
+                      ),
                     ],
                   ),
                 ),
@@ -372,7 +365,7 @@ class _DemoWidgetState extends State<DemoWidget> {
                 onCircularRadiusChange: (isSelected) {
                   setState(
                     () {
-                      isCircularRadiusDefault = isSelected;
+                      isCircularRadiusDefault = isSelected!;
                     },
                   );
                 },
@@ -398,7 +391,7 @@ class _DemoWidgetState extends State<DemoWidget> {
                   setState(
                     () {
                       forceRender = false;
-                      isCircularRadiusSelected = isSelected;
+                      isCircularRadiusSelected = isSelected!;
                     },
                   );
                 },
@@ -424,7 +417,7 @@ class _DemoWidgetState extends State<DemoWidget> {
                   setState(
                     () {
                       forceRender = false;
-                      isCircularRadiusDisabled = isSelected;
+                      isCircularRadiusDisabled = isSelected!;
                     },
                   );
                 },
@@ -444,9 +437,7 @@ class _DemoWidgetState extends State<DemoWidget> {
   }
 
   void showMessage(String message) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
   bool isRangeValid(DateTime first, DateTime last, int minSelection) {
@@ -489,11 +480,11 @@ Future<DateTime> datePicker(
       Duration(days: 365),
     ),
   );
-  return toDateMonthYear(selectedDate);
+  return toDateMonthYear(selectedDate!);
 }
 
 LabelType toLabelType(String label) {
-  LabelType type;
+  late LabelType type;
   switch (label) {
     case labelMonth:
       type = LabelType.month;
