@@ -4,57 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:horizontal_calendar_widget/horizontal_calendar.dart';
 
 void main() {
-  testWidgets(
-    'Assert should fail if firstDate is NULL',
-    (WidgetTester tester) async {
-      expectLater(
-          () => tester.pumpWidget(
-                Directionality(
-                  child: HorizontalCalendar(
-                    firstDate: null,
-                    lastDate: DateTime(2019, 11, 20),
-                  ),
-                  textDirection: TextDirection.ltr,
-                ),
-              ),
-          throwsAssertionError);
-    },
-  );
-
-  testWidgets(
-    'Assert should fail if lastDate is NULL',
-    (WidgetTester tester) async {
-      expectLater(
-          () => tester.pumpWidget(
-                Directionality(
-                  child: HorizontalCalendar(
-                    firstDate: DateTime(2019, 11, 20),
-                    lastDate: null,
-                  ),
-                  textDirection: TextDirection.ltr,
-                ),
-              ),
-          throwsAssertionError);
-    },
-  );
-
-  testWidgets(
-    'Assert should fail if Label order is NULL',
-    (WidgetTester tester) async {
-      expectLater(
-          () => tester.pumpWidget(
-                Directionality(
-                  child: HorizontalCalendar(
-                    firstDate: DateTime(2019, 11, 20),
-                    lastDate: null,
-                    labelOrder: null,
-                  ),
-                  textDirection: TextDirection.ltr,
-                ),
-              ),
-          throwsAssertionError);
-    },
-  );
 
   testWidgets(
     'Assert should fail if Label order is empty',
@@ -64,7 +13,7 @@ void main() {
                 Directionality(
                   child: HorizontalCalendar(
                     firstDate: DateTime(2019, 11, 20),
-                    lastDate: null,
+                    lastDate: DateTime.now(),
                     labelOrder: [],
                   ),
                   textDirection: TextDirection.ltr,
